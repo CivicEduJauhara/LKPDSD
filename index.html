@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LKPD Transformasi Geometri</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    * {
+      font-family: 'Nunito', sans-serif;
+    }
+    .grid-paper {
+      background-image: 
+        linear-gradient(rgba(59, 130, 246, 0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59, 130, 246, 0.15) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+    .triangle-interactive {
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .triangle-interactive:hover {
+      filter: brightness(1.1);
+    }
+    .answer-box {
+      border: 2px dashed #94a3b8;
+      background: #f8fafc;
+      min-height: 40px;
+      transition: all 0.2s;
+    }
+    .answer-box:focus {
+      border-color: #3b82f6;
+      background: white;
+      outline: none;
+    }
+    .section-card {
+      background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+    .header-badge {
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+    .float-animation {
+      animation: float 3s ease-in-out infinite;
+    }
+    @media print {
+      .no-print { display: none !important; }
+      .section-card { break-inside: avoid; }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
+  <div id="app-container" class="h-full overflow-auto">
+   <div class="max-w-4xl mx-auto p-4 md:p-6"><!-- Header -->
+    <header class="section-card p-6 mb-6">
+     <div class="flex flex-col md:flex-row items-center gap-4">
+      <div class="header-badge p-4 rounded-2xl float-animation">
+       <svg width="60" height="60" viewbox="0 0 60 60" fill="none"><polygon points="30,8 52,48 8,48" fill="white" stroke="white" stroke-width="2" /> <polygon points="30,15 45,42 15,42" fill="none" stroke="#3b82f6" stroke-width="2" stroke-dasharray="4" />
+       </svg>
+      </div>
+      <div class="text-center md:text-left flex-1">
+       <h1 id="main-title" class="text-2xl md:text-3xl font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">LKPD Transformasi Geometri</h1>
+       <p class="text-gray-600 mt-1">Translasi, Rotasi, dan Refleksi pada Segitiga</p>
+       <p class="text-sm text-gray-500 mt-1">Matematika Kelas 5 SD</p>
+      </div>
+     </div><!-- Student Info -->
+     <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="flex items-center gap-2"><span id="name-label" class="font-semibold text-gray-700">Nama:</span> <input type="text" class="answer-box flex-1 px-3 py-2 rounded-lg" placeholder="Tulis namamu...">
+      </div>
+      <div class="flex items-center gap-2"><span id="class-label" class="font-semibold text-gray-700">Kelas:</span> <input type="text" class="answer-box flex-1 px-3 py-2 rounded-lg" placeholder="5...">
+      </div>
+      <div class="flex items-center gap-2"><span class="font-semibold text-gray-700">Tanggal:</span> <input type="date" class="answer-box flex-1 px-3 py-2 rounded-lg">
+      </div>
+     </div>
+    </header><!-- Learning Objectives -->
+    <section class="section-card p-6 mb-6">
+     <div class="flex items-center gap-3 mb-4">
+      <div class="w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center text-xl">
+       🎯
+      </div>
+      <h2 class="text-xl font-bold text-gray-800">Tujuan Pembelajaran</h2>
+     </div>
+     <ul class="space-y-2 text-gray-700">
+      <li class="flex items-start gap-2"><span class="text-green-500 font-bold">✓</span> <span>Memahami konsep translasi (pergeseran) pada segitiga</span></li>
+      <li class="flex items-start gap-2"><span class="text-green-500 font-bold">✓</span> <span>Memahami konsep rotasi (perputaran) pada segitiga</span></li>
+      <li class="flex items-start gap-2"><span class="text-green-500 font-bold">✓</span> <span>Memahami konsep refleksi (pencerminan) pada segitiga</span></li>
+     </ul>
+    </section><!-- Section 1: Translasi -->
+    <section class="section-card p-6 mb-6">
+     <div class="flex items-center gap-3 mb-4">
+      <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
+       1
+      </div>
+      <h2 class="text-xl font-bold text-gray-800">TRANSLASI (Pergeseran)</h2>
+     </div>
+     <div class="bg-blue-50 rounded-xl p-4 mb-4">
+      <p class="text-gray-700"><strong>Translasi</strong> adalah memindahkan bangun datar ke posisi lain <strong>tanpa mengubah bentuk dan ukurannya</strong>. Bayangkan seperti menggeser buku di atas meja! 📚➡️</p>
+     </div><!-- Interactive Demo -->
+     <div class="mb-6">
+      <h3 class="font-bold text-gray-700 mb-3">🔍 Perhatikan Contoh:</h3>
+      <div class="grid-paper rounded-xl p-4 bg-white relative" style="height: 200px;">
+       <svg width="100%" height="100%" viewbox="0 0 400 160"><!-- Original Triangle --> <polygon points="60,120 100,40 140,120" fill="#3b82f6" opacity="0.8" class="triangle-interactive" /> <text x="100" y="145" text-anchor="middle" class="text-xs fill-blue-600 font-bold">
+         Segitiga Awal
+        </text> <!-- Arrow --> <line x1="160" y1="80" x2="220" y2="80" stroke="#10b981" stroke-width="3" marker-end="url(#arrowhead)" /> <text x="190" y="70" text-anchor="middle" class="text-xs fill-green-600 font-semibold">
+         Geser
+        </text> <!-- Translated Triangle --> <polygon points="240,120 280,40 320,120" fill="#10b981" opacity="0.8" class="triangle-interactive" /> <text x="280" y="145" text-anchor="middle" class="text-xs fill-green-600 font-bold">
+         Hasil Translasi
+        </text> <defs>
+         <marker id="arrowhead" markerwidth="10" markerheight="7" refx="9" refy="3.5" orient="auto">
+          <polygon points="0 0, 10 3.5, 0 7" fill="#10b981" />
+         </marker>
+        </defs>
+       </svg>
+      </div>
+     </div><!-- Activity 1 -->
+     <div class="bg-gradient-to-r from-blue-100 to-blue-50 rounded-xl p-4">
+      <h3 class="font-bold text-blue-800 mb-3">✏️ Kegiatan 1: Menggambar Translasi</h3>
+      <p class="text-gray-700 mb-3">Gambarlah hasil translasi segitiga ABC ke kanan sejauh 4 kotak!</p>
+      <div class="grid-paper rounded-lg bg-white p-2" style="height: 180px;">
+       <svg width="100%" height="100%" viewbox="0 0 360 140"><polygon points="40,110 70,30 100,110" fill="#3b82f6" stroke="#1e40af" stroke-width="2" /> <text x="35" y="125" class="text-xs fill-blue-800 font-bold">
+         A
+        </text> <text x="68" y="22" class="text-xs fill-blue-800 font-bold">
+         B
+        </text> <text x="102" y="125" class="text-xs fill-blue-800 font-bold">
+         C
+        </text> <!-- Grid dots for guidance --> <g fill="#cbd5e1">
+         <circle cx="120" cy="110" r="2" />
+         <circle cx="140" cy="110" r="2" />
+         <circle cx="160" cy="110" r="2" />
+         <circle cx="180" cy="110" r="2" />
+         <circle cx="200" cy="110" r="2" />
+         <circle cx="220" cy="110" r="2" />
+        </g>
+       </svg>
+      </div>
+      <div class="mt-3"><label class="font-semibold text-gray-700">Jawaban: Titik-titik baru segitiga adalah...</label> <textarea class="answer-box w-full mt-2 px-3 py-2 rounded-lg" rows="2" placeholder="A' = (..., ...), B' = (..., ...), C' = (..., ...)"></textarea>
+      </div>
+     </div>
+    </section><!-- Section 2: Rotasi -->
+    <section class="section-card p-6 mb-6">
+     <div class="flex items-center gap-3 mb-4">
+      <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">
+       2
+      </div>
+      <h2 class="text-xl font-bold text-gray-800">ROTASI (Perputaran)</h2>
+     </div>
+     <div class="bg-orange-50 rounded-xl p-4 mb-4">
+      <p class="text-gray-700"><strong>Rotasi</strong> adalah memutar bangun datar pada satu titik pusat dengan sudut tertentu. Bayangkan seperti jarum jam yang berputar! 🕐</p>
+     </div><!-- Interactive Demo -->
+     <div class="mb-6">
+      <h3 class="font-bold text-gray-700 mb-3">🔍 Perhatikan Contoh Rotasi 90°:</h3>
+      <div class="grid-paper rounded-xl p-4 bg-white relative" style="height: 220px;">
+       <svg width="100%" height="100%" viewbox="0 0 400 180"><!-- Center point --> <circle cx="200" cy="100" r="5" fill="#ef4444" /> <text x="200" y="125" text-anchor="middle" class="text-xs fill-red-600 font-bold">
+         Titik Pusat
+        </text> <!-- Original Triangle --> <polygon points="200,100 200,40 260,100" fill="#f97316" opacity="0.8" /> <text x="240" y="60" class="text-xs fill-orange-600 font-bold">
+         Awal
+        </text> <!-- Rotation arrow --> <path d="M 230 50 A 50 50 0 0 1 250 100" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="4" /> <text x="260" y="75" class="text-xs fill-purple-600 font-semibold">
+         90°
+        </text> <!-- Rotated Triangle --> <polygon points="200,100 260,100 200,160" fill="#8b5cf6" opacity="0.8" /> <text x="240" y="145" class="text-xs fill-purple-600 font-bold">
+         Hasil
+        </text>
+       </svg>
+      </div>
+     </div><!-- Activity 2 -->
+     <div class="bg-gradient-to-r from-orange-100 to-orange-50 rounded-xl p-4">
+      <h3 class="font-bold text-orange-800 mb-3">✏️ Kegiatan 2: Memahami Rotasi</h3>
+      <div class="space-y-4">
+       <div>
+        <p class="text-gray-700 mb-2"><strong>Soal 1:</strong> Jika segitiga diputar 180° searah jarum jam, apa yang terjadi?</p>
+        <div class="space-y-2"><label class="flex items-center gap-2 cursor-pointer"> <input type="radio" name="rotasi1" class="w-4 h-4 text-orange-500"> <span>a. Segitiga terbalik (posisi atas menjadi bawah)</span> </label> <label class="flex items-center gap-2 cursor-pointer"> <input type="radio" name="rotasi1" class="w-4 h-4 text-orange-500"> <span>b. Segitiga tidak berubah posisi</span> </label> <label class="flex items-center gap-2 cursor-pointer"> <input type="radio" name="rotasi1" class="w-4 h-4 text-orange-500"> <span>c. Segitiga menjadi lebih besar</span> </label>
+        </div>
+       </div>
+       <div>
+        <p class="text-gray-700 mb-2"><strong>Soal 2:</strong> Gambarlah hasil rotasi segitiga 90° searah jarum jam dengan titik pusat P!</p>
+        <div class="grid-paper rounded-lg bg-white p-2" style="height: 180px;">
+         <svg width="100%" height="100%" viewbox="0 0 360 140"><circle cx="180" cy="80" r="4" fill="#ef4444" /> <text x="188" y="85" class="text-xs fill-red-600 font-bold">
+           P
+          </text> <polygon points="180,80 180,30 230,80" fill="#f97316" stroke="#c2410c" stroke-width="2" />
+         </svg>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section><!-- Section 3: Refleksi -->
+    <section class="section-card p-6 mb-6">
+     <div class="flex items-center gap-3 mb-4">
+      <div class="w-10 h-10 bg-pink-500 rounded-full flex items-center justify-center text-white font-bold">
+       3
+      </div>
+      <h2 class="text-xl font-bold text-gray-800">REFLEKSI (Pencerminan)</h2>
+     </div>
+     <div class="bg-pink-50 rounded-xl p-4 mb-4">
+      <p class="text-gray-700"><strong>Refleksi</strong> adalah mencerminkan bangun datar terhadap suatu garis (sumbu cermin). Bayangkan seperti melihat bayangan di cermin! 🪞</p>
+     </div><!-- Interactive Demo -->
+     <div class="mb-6">
+      <h3 class="font-bold text-gray-700 mb-3">🔍 Perhatikan Contoh Refleksi:</h3>
+      <div class="grid-paper rounded-xl p-4 bg-white relative" style="height: 200px;">
+       <svg width="100%" height="100%" viewbox="0 0 400 160"><!-- Mirror line --> <line x1="200" y1="10" x2="200" y2="150" stroke="#ec4899" stroke-width="3" stroke-dasharray="8,4" /> <text x="200" y="165" text-anchor="middle" class="text-xs fill-pink-600 font-bold">
+         Sumbu Cermin
+        </text> <!-- Original Triangle --> <polygon points="80,120 120,40 160,120" fill="#ec4899" opacity="0.8" /> <text x="120" y="135" text-anchor="middle" class="text-xs fill-pink-600 font-bold">
+         Asli
+        </text> <!-- Reflected Triangle (mirrored) --> <polygon points="320,120 280,40 240,120" fill="#06b6d4" opacity="0.8" /> <text x="280" y="135" text-anchor="middle" class="text-xs fill-cyan-600 font-bold">
+         Bayangan
+        </text> <!-- Connection lines --> <line x1="120" y1="40" x2="280" y2="40" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4" />
+       </svg>
+      </div>
+     </div><!-- Activity 3 -->
+     <div class="bg-gradient-to-r from-pink-100 to-pink-50 rounded-xl p-4">
+      <h3 class="font-bold text-pink-800 mb-3">✏️ Kegiatan 3: Menggambar Refleksi</h3>
+      <p class="text-gray-700 mb-3">Gambarlah bayangan segitiga PQR terhadap garis cermin!</p>
+      <div class="grid-paper rounded-lg bg-white p-2" style="height: 200px;">
+       <svg width="100%" height="100%" viewbox="0 0 360 160"><!-- Mirror line --> <line x1="180" y1="10" x2="180" y2="150" stroke="#ec4899" stroke-width="2" stroke-dasharray="6,3" /> <!-- Original Triangle --> <polygon points="60,130 90,50 130,130" fill="#ec4899" stroke="#be185d" stroke-width="2" /> <text x="55" y="145" class="text-xs fill-pink-800 font-bold">
+         P
+        </text> <text x="88" y="42" class="text-xs fill-pink-800 font-bold">
+         Q
+        </text> <text x="133" y="145" class="text-xs fill-pink-800 font-bold">
+         R
+        </text> <!-- Guide dots --> <g fill="#cbd5e1">
+         <circle cx="230" cy="130" r="2" />
+         <circle cx="270" cy="130" r="2" />
+         <circle cx="300" cy="130" r="2" />
+         <circle cx="270" cy="50" r="2" />
+        </g>
+       </svg>
+      </div>
+      <div class="mt-3"><label class="font-semibold text-gray-700">Jawaban: Titik-titik bayangan segitiga adalah...</label> <textarea class="answer-box w-full mt-2 px-3 py-2 rounded-lg" rows="2" placeholder="P' = (..., ...), Q' = (..., ...), R' = (..., ...)"></textarea>
+      </div>
+     </div>
+    </section><!-- Section 4: Quiz -->
+    <section class="section-card p-6 mb-6">
+     <div class="flex items-center gap-3 mb-4">
+      <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white font-bold">
+       4
+      </div>
+      <h2 class="text-xl font-bold text-gray-800">LATIHAN SOAL</h2>
+     </div>
+     <div class="space-y-6"><!-- Question 1 -->
+      <div class="bg-gray-50 rounded-xl p-4">
+       <p class="font-bold text-gray-800 mb-3">1. Pasangkan transformasi dengan deskripsinya!</p>
+       <div class="grid md:grid-cols-2 gap-4">
+        <div class="space-y-2">
+         <div class="bg-blue-100 rounded-lg p-3 text-center font-semibold text-blue-800">
+          Translasi
+         </div>
+         <div class="bg-orange-100 rounded-lg p-3 text-center font-semibold text-orange-800">
+          Rotasi
+         </div>
+         <div class="bg-pink-100 rounded-lg p-3 text-center font-semibold text-pink-800">
+          Refleksi
+         </div>
+        </div>
+        <div class="space-y-2">
+         <div class="answer-box rounded-lg p-3 text-center"><input type="text" class="w-full text-center bg-transparent outline-none" placeholder="....... = Memutar bangun">
+         </div>
+         <div class="answer-box rounded-lg p-3 text-center"><input type="text" class="w-full text-center bg-transparent outline-none" placeholder="....... = Menggeser bangun">
+         </div>
+         <div class="answer-box rounded-lg p-3 text-center"><input type="text" class="w-full text-center bg-transparent outline-none" placeholder="....... = Mencerminkan bangun">
+         </div>
+        </div>
+       </div>
+      </div><!-- Question 2 -->
+      <div class="bg-gray-50 rounded-xl p-4">
+       <p class="font-bold text-gray-800 mb-3">2. Manakah yang BENAR tentang transformasi? (Pilih semua yang benar)</p>
+       <div class="space-y-2"><label class="flex items-start gap-3 cursor-pointer p-2 hover:bg-gray-100 rounded-lg"> <input type="checkbox" class="w-5 h-5 mt-0.5 text-green-500"> <span>Translasi tidak mengubah bentuk dan ukuran segitiga</span> </label> <label class="flex items-start gap-3 cursor-pointer p-2 hover:bg-gray-100 rounded-lg"> <input type="checkbox" class="w-5 h-5 mt-0.5 text-green-500"> <span>Rotasi membuat segitiga menjadi lebih besar</span> </label> <label class="flex items-start gap-3 cursor-pointer p-2 hover:bg-gray-100 rounded-lg"> <input type="checkbox" class="w-5 h-5 mt-0.5 text-green-500"> <span>Refleksi menghasilkan bayangan yang sama besar dengan aslinya</span> </label> <label class="flex items-start gap-3 cursor-pointer p-2 hover:bg-gray-100 rounded-lg"> <input type="checkbox" class="w-5 h-5 mt-0.5 text-green-500"> <span>Rotasi memerlukan titik pusat dan sudut putar</span> </label>
+       </div>
+      </div><!-- Question 3 -->
+      <div class="bg-gray-50 rounded-xl p-4">
+       <p class="font-bold text-gray-800 mb-3">3. Jelaskan dengan kata-katamu sendiri:</p>
+       <div class="space-y-3">
+        <div><label class="text-gray-700">Apa perbedaan translasi dan rotasi?</label> <textarea class="answer-box w-full mt-2 px-3 py-2 rounded-lg" rows="2" placeholder="Tulis jawabanmu..."></textarea>
+        </div>
+        <div><label class="text-gray-700">Berikan contoh refleksi dalam kehidupan sehari-hari!</label> <textarea class="answer-box w-full mt-2 px-3 py-2 rounded-lg" rows="2" placeholder="Contoh: ..."></textarea>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section><!-- Section 5: Summary -->
+    <section class="section-card p-6 mb-6">
+     <div class="flex items-center gap-3 mb-4">
+      <div class="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center text-xl">
+       📝
+      </div>
+      <h2 class="text-xl font-bold text-gray-800">RANGKUMAN</h2>
+     </div>
+     <div class="grid md:grid-cols-3 gap-4">
+      <div class="bg-blue-50 rounded-xl p-4 text-center">
+       <div class="text-3xl mb-2">
+        ➡️
+       </div>
+       <h3 class="font-bold text-blue-800">TRANSLASI</h3>
+       <p class="text-sm text-gray-600 mt-2">Menggeser bangun tanpa mengubah bentuk</p>
+      </div>
+      <div class="bg-orange-50 rounded-xl p-4 text-center">
+       <div class="text-3xl mb-2">
+        🔄
+       </div>
+       <h3 class="font-bold text-orange-800">ROTASI</h3>
+       <p class="text-sm text-gray-600 mt-2">Memutar bangun pada titik pusat</p>
+      </div>
+      <div class="bg-pink-50 rounded-xl p-4 text-center">
+       <div class="text-3xl mb-2">
+        🪞
+       </div>
+       <h3 class="font-bold text-pink-800">REFLEKSI</h3>
+       <p class="text-sm text-gray-600 mt-2">Mencerminkan bangun terhadap garis</p>
+      </div>
+     </div>
+     <div class="mt-4 p-4 bg-yellow-50 rounded-xl border-l-4 border-yellow-400">
+      <p class="text-gray-700"><strong>💡 Ingat:</strong> Pada semua transformasi, bentuk dan ukuran bangun datar <strong>TIDAK BERUBAH!</strong></p>
+     </div>
+    </section><!-- Reflection Section -->
+    <section class="section-card p-6 mb-6">
+     <div class="flex items-center gap-3 mb-4">
+      <div class="w-10 h-10 bg-cyan-500 rounded-full flex items-center justify-center text-xl">
+       💭
+      </div>
+      <h2 class="text-xl font-bold text-gray-800">REFLEKSI DIRI</h2>
+     </div>
+     <div class="space-y-4">
+      <div>
+       <p class="font-semibold text-gray-700 mb-2">Seberapa paham kamu dengan materi hari ini?</p>
+       <div class="flex gap-4 flex-wrap"><label class="flex items-center gap-2 cursor-pointer bg-green-50 px-4 py-2 rounded-full hover:bg-green-100"> <input type="radio" name="understanding" class="w-4 h-4"> <span>😊 Sangat Paham</span> </label> <label class="flex items-center gap-2 cursor-pointer bg-yellow-50 px-4 py-2 rounded-full hover:bg-yellow-100"> <input type="radio" name="understanding" class="w-4 h-4"> <span>🤔 Cukup Paham</span> </label> <label class="flex items-center gap-2 cursor-pointer bg-red-50 px-4 py-2 rounded-full hover:bg-red-100"> <input type="radio" name="understanding" class="w-4 h-4"> <span>😕 Masih Bingung</span> </label>
+       </div>
+      </div>
+      <div><label class="font-semibold text-gray-700">Apa yang masih ingin kamu pelajari lebih lanjut?</label> <textarea class="answer-box w-full mt-2 px-3 py-2 rounded-lg" rows="2" placeholder="Tulis di sini..."></textarea>
+      </div>
+     </div>
+    </section><!-- Footer -->
+    <footer class="text-center py-4 text-gray-500 text-sm">
+     <p>LKPD Matematika Kelas 5 SD - Transformasi Geometri</p>
+     <p class="mt-1">Selamat Belajar! 🌟</p>
+    </footer>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      main_title: 'LKPD Transformasi Geometri',
+      student_name_label: 'Nama:',
+      class_label: 'Kelas:',
+      primary_color: '#3b82f6',
+      secondary_color: '#f0f9ff',
+      text_color: '#1f2937',
+      accent_color: '#8b5cf6',
+      surface_color: '#ffffff',
+      font_family: 'Nunito',
+      font_size: 16
+    };
+
+    let config = { ...defaultConfig };
+
+    async function onConfigChange(cfg) {
+      config = { ...defaultConfig, ...cfg };
+
+      // Update title
+      const mainTitle = document.getElementById('main-title');
+      if (mainTitle) {
+        mainTitle.textContent = config.main_title || defaultConfig.main_title;
+      }
+
+      // Update labels
+      const nameLabel = document.getElementById('name-label');
+      if (nameLabel) {
+        nameLabel.textContent = config.student_name_label || defaultConfig.student_name_label;
+      }
+
+      const classLabel = document.getElementById('class-label');
+      if (classLabel) {
+        classLabel.textContent = config.class_label || defaultConfig.class_label;
+      }
+
+      // Update colors
+      const primaryColor = config.primary_color || defaultConfig.primary_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      
+      document.documentElement.style.setProperty('--primary-color', primaryColor);
+      
+      if (mainTitle) {
+        mainTitle.style.background = `linear-gradient(to right, ${primaryColor}, ${config.accent_color || defaultConfig.accent_color})`;
+        mainTitle.style.webkitBackgroundClip = 'text';
+        mainTitle.style.backgroundClip = 'text';
+      }
+
+      // Update font
+      const fontFamily = config.font_family || defaultConfig.font_family;
+      const fontSize = config.font_size || defaultConfig.font_size;
+      document.body.style.fontFamily = `${fontFamily}, sans-serif`;
+      document.body.style.fontSize = `${fontSize}px`;
+    }
+
+    function mapToCapabilities(cfg) {
+      return {
+        recolorables: [
+          {
+            get: () => cfg.primary_color || defaultConfig.primary_color,
+            set: (value) => {
+              cfg.primary_color = value;
+              window.elementSdk.setConfig({ primary_color: value });
+            }
+          },
+          {
+            get: () => cfg.secondary_color || defaultConfig.secondary_color,
+            set: (value) => {
+              cfg.secondary_color = value;
+              window.elementSdk.setConfig({ secondary_color: value });
+            }
+          },
+          {
+            get: () => cfg.text_color || defaultConfig.text_color,
+            set: (value) => {
+              cfg.text_color = value;
+              window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => cfg.accent_color || defaultConfig.accent_color,
+            set: (value) => {
+              cfg.accent_color = value;
+              window.elementSdk.setConfig({ accent_color: value });
+            }
+          },
+          {
+            get: () => cfg.surface_color || defaultConfig.surface_color,
+            set: (value) => {
+              cfg.surface_color = value;
+              window.elementSdk.setConfig({ surface_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => cfg.font_family || defaultConfig.font_family,
+          set: (value) => {
+            cfg.font_family = value;
+            window.elementSdk.setConfig({ font_family: value });
+          }
+        },
+        fontSizeable: {
+          get: () => cfg.font_size || defaultConfig.font_size,
+          set: (value) => {
+            cfg.font_size = value;
+            window.elementSdk.setConfig({ font_size: value });
+          }
+        }
+      };
+    }
+
+    function mapToEditPanelValues(cfg) {
+      return new Map([
+        ['main_title', cfg.main_title || defaultConfig.main_title],
+        ['student_name_label', cfg.student_name_label || defaultConfig.student_name_label],
+        ['class_label', cfg.class_label || defaultConfig.class_label]
+      ]);
+    }
+
+    // Initialize SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    } else {
+      onConfigChange(defaultConfig);
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9bcc6c33767ac4af',t:'MTc2ODIxODQ4NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
